@@ -1,5 +1,10 @@
 # Country Finder App
-This is a web application in React.User can find the information of the countries in this world with their flag.After clicking in the country's card then user can find the detail information of each countries and users can come back to the main page.Pagination is displayed to show 10 countriess per page. User can also choose option to display the number of countries per page. User can view countries filtering regions as well.
+This is a web application in React.
+The countries' required data is fetched from an Api.
+User can find the information of the countries in this world with their flag.
+After clicking in the country's card then user can find the detail information of each countries and users can come back to the main page.
+Pagination is displayed to show 10 countriess per page.
+User can also choose option to display the number of countries per page. User can view countries filtering regions as well.
 
 ## Live link for the project is
  https://searchthecountry.netlify.app/
