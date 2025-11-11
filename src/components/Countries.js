@@ -10,8 +10,8 @@ const Countries = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
   const [countriesPerPage, setCountriesPerPage] = useState(10);
-  const numOfTotalPages = Math.ceil(countries.length / countriesPerPage);
-  const pages = [...Array(numOfTotalPages + 1).keys()].slice(1);
+  const numOfTotalPages = Math.max(1, Math.ceil(countries.length / countriesPerPage));
+  const pages = Array.from({ length: numOfTotalPages }, (_, i) => i + 1);
   const [currentPage, setCurrentPage] = useState(1);
   const indexOfLastCountry = currentPage * countriesPerPage;
   const indexOfFirstCountry = indexOfLastCountry - countriesPerPage;
