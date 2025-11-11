@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import SearchInput from "./SearchInput";
 import FilterRegional from "./FilterRegional";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./styles/country.css";
 import "./styles/pagination.css";
 
@@ -16,7 +16,8 @@ const Countries = () => {
   const indexOfLastCountry = currentPage * countriesPerPage;
   const indexOfFirstCountry = indexOfLastCountry - countriesPerPage;
   const visibleCountries = countries.slice(indexOfFirstCountry, indexOfLastCountry)
- 
+  const navigate = useNavigate();
+
   const prevPageHandler = () => {
     if (currentPage !== 1) setCurrentPage(currentPage - 1);
   };
@@ -39,21 +40,10 @@ const Countries = () => {
       setError(error.message)
     }
   };
-
-  const getCountryByName = async (countryName) => {
-    try {
-        const res = await fetch(`https://restcountries.com/v3.1/name/${countryName}`);
-        if(!res.ok) throw new Error('Searched country data Not found');
-        const data = await res.json()
-        setCountries(data)
-
-        setIsLoading(false)
-      } catch (error) {
-        setIsLoading(false)
-        setError(error.message)
-      }
+  const handleSearch = (countryName) => {
+    navigate(`/country/${countryName}`);
   };
-  
+
   const getCountryByRegion = async (regionName) => {
     try {
       const res = await fetch(`https://restcountries.com/v3.1/region/${regionName}`);
@@ -79,7 +69,7 @@ const Countries = () => {
       
        <div className="country__info">
          <div className="search">
-            <SearchInput onSearch={getCountryByName} />
+            <SearchInput onSearch={handleSearch} />
          </div>
 
         <select onChange = {(e) => setCountriesPerPage(e.target.value)}>
