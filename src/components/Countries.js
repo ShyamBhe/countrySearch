@@ -26,8 +26,8 @@ const Countries = () => {
    
   const getCountries = async () => {
     try {
-      const res = await fetch(`https://restcountries.com/v3.1/all`);
       
+      const res = await fetch('https://restcountries.com/v3.1/all?fields=name,capital,population,flags,region,currencies');
       if (!res.ok) throw new Error("Something went wrong!")
       const data = await res.json()
       console.log(data)
@@ -113,7 +113,7 @@ const Countries = () => {
                   {new Intl.NumberFormat().format(country.population)}
                 </h6>
                 <h6>Region: {country.region}</h6>
-                <h6>Currencies: {Object.values(country.currencies || []).map(({name}) => name).join(", ")}</h6>
+                <h6>Currency: {Object.values(country.currencies || []).map(({name}) => name).join(", ")}</h6>
                 <h6>Capital: {country.capital}</h6>
               </div>
             </div>
