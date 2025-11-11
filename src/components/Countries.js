@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import SearchInput from "./SearchInput";
 import FilterRegional from "./FilterRegional";
 import { Link } from "react-router-dom";
-import country from "./styles/country.css";
-import pagination from "./styles/pagination.css";
+import "./styles/country.css";
+import "./styles/pagination.css";
 
 const Countries = () => {
   const [countries, setCountries] = useState([]);
