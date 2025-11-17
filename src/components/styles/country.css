@@ -1,142 +1,284 @@
 @import url("https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap");
 
 * {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-  font-family: "Lora", serif;
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	font-family: "Lora", serif;
 }
 
 .container {
-  width: 1200;
-  padding: 0px 15px;
+	width: 1200;
+	padding: 0px 15px;
 }
 
 body {
-  background:lightblue;
+	background: lightblue;
 }
 
 .header {
-  width: 100%;
-  line-height: 70px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  background: lightskyblue;
+	width: 100%;
+	line-height: 70px;
+	position: fixed;
+	top: 0;
+	left: 0;
+	background: lightskyblue;
 }
 
 .header h5 {
-  text-align: center;
-  font-size: 2rem;
-  color: black;
+	text-align: center;
+	font-size: 2rem;
+	color: black;
 }
 
 .country__list {
-  display: flex;
-  flex-wrap: wrap;
-  column-gap: 2.3rem;
-  row-gap: 2.3rem;
-  margin-left: 50px;
-  margin-right: auto;
+	display: flex;
+	flex-wrap: wrap;
+	column-gap: 2.3rem;
+	row-gap: 2.3rem;
+	margin-left: 50px;
+	margin-right: auto;
 }
 
 .country__card {
-  width: 250px;
-  height: 380px;
-  border-radius: 5px;
-  background: hsl(240, 64%, 30%);
-  color: #fff;
+	width: 250px;
+	height: 380px;
+	border-radius: 5px;
+	background: hsl(240, 64%, 30%);
+	color: #fff;
 }
 
 .country__img img {
-  width: 100%;
-  height: 150px;
+	width: 100%;
+	height: 150px;
 }
 
 .country_wrap {
-  margin-top: 100px;
+	margin-top: 100px;
 }
 
 .country__data {
-  padding: 20px;
+	padding: 20px;
 }
 
 .country__data h3 {
-  margin-top: 10px;
-  margin-bottom: 15px;
-  text-decoration: none;
-  background: hsl(240, 64%, 30%);
-  color: #fff;
-  font-size: 19px;
-  font-weight: 600;
+	margin-top: 10px;
+	margin-bottom: 15px;
+	text-decoration: none;
+	background: hsl(240, 64%, 30%);
+	color: #fff;
+	font-size: 19px;
+	font-weight: 600;
 }
 
 .country__data h6 {
-  margin-bottom: 10px;
-  font-size: 15px;
-  text-decoration: none;
-  font-weight: 400;
-  opacity: 80%;
+	margin-bottom: 10px;
+	font-size: 15px;
+	text-decoration: none;
+	font-weight: 400;
+	opacity: 80%;
 }
 
 .country__list h4 {
-  color: #fff;
-  text-align: center;
-  margin-top: 12px;
+	color: #fff;
+	text-align: center;
+	margin-top: 12px;
 }
-input {
-  padding: 10px 65px;
-  color: black;
-  position: right;
-  margin-left:48px;
-  border-radius: 5px;
-  background:lightskyblue;
-  margin-bottom: 20px;
-  cursor: pointer;
+.country__list a {
+	text-decoration: none !important;
+	color: inherit;
 }
 
-::placeholder{
-  color: black;
+.country__list a:hover {
+	text-decoration: none !important;
+}
+input {
+	padding: 10px 65px;
+	color: black;
+	position: right;
+	margin-left: 48px;
+	border-radius: 5px;
+	background: lightskyblue;
+	margin-bottom: 20px;
+	cursor: pointer;
+}
+
+::placeholder {
+	color: black;
 }
 
 .form {
-  margin-top: 0px;
+	margin-top: 0px;
 }
 
 select {
-  margin-top: 25px;
-  padding: 10px 65px;
-  background:lightskyblue;
-  margin-bottom: 40px;
-  margin-right:44px;
-  outline: none;
-  border-radius: 5px;
-  color:black;
-  cursor: pointer;
+	margin-top: 25px;
+	padding: 10px 65px;
+	background: lightskyblue;
+	margin-bottom: 40px;
+	margin-right: 44px;
+	outline: none;
+	border-radius: 5px;
+	color: black;
+	cursor: pointer;
 }
 .country__info {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-top: 50px;
 }
 .country__info__wrap {
-  margin-top: 250px;
+	margin-top: 250px;
 }
-.country__info__container{
-  display: flex;
-  align-items: center;
-  margin-top: 250px;
-  column-gap: 2rem;
+.country__info__container {
+	display: flex;
+	align-items: center;
+	margin-top: 250px;
+	column-gap: 2rem;
 }
 
 button {
-  padding: 10px 25px;
-  color: black;
-  background: skyblue;
-  cursor: pointer;
-  border-radius: 5px;
-  text-decoration: none;
-  margin-top: 90px;
-  margin-bottom: 20px;
+	padding: 10px 25px;
+	color: black;
+	background: skyblue;
+	cursor: pointer;
+	border-radius: 5px;
+	text-decoration: none;
+	margin-top: 90px;
+	margin-bottom: 20px;
+}
+
+.chatgpt-box {
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	width: 330px;
+	height: 400px;
+	background: #ffffff;
+	border-radius: 12px;
+	box-shadow: 0 4px 25px rgba(0, 0, 0, 0.25);
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	z-index: 9999;
+	font-family: "Lora", serif;
+}
+
+.chat-header {
+	background: linear-gradient(90deg, #0365d6, #54a6ff);
+	color: white;
+	padding: 12px;
+	font-size: 17px;
+	font-weight: bold;
+	text-align: center;
+}
+
+.chat-messages {
+	flex: 1;
+	padding: 15px;
+	overflow-y: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.chat-messages::-webkit-scrollbar {
+	width: 6px;
+}
+.chat-messages::-webkit-scrollbar-thumb {
+	background: #d3d3d3;
+	border-radius: 10px;
+}
+
+.msg {
+	display: flex;
+	max-width: 85%;
+}
+
+.msg.user {
+	justify-content: flex-end;
+}
+
+.msg.user .bubble {
+	background: #007bff;
+	color: white;
+	border-radius: 14px 14px 0 14px;
+}
+
+.msg.bot .bubble {
+	background: #ececec;
+	color: black;
+	border-radius: 14px 14px 14px 0;
+}
+
+.bubble {
+	padding: 10px 14px;
+	line-height: 1.4;
+	font-size: 14px;
+	max-width: 100%;
+}
+
+.chat-input-area {
+	display: flex;
+	max-height: 150px;
+	border-top: 1px solid #ddd;
+	padding: 5px;
+	gap: 3px;
+	background: #fafafa;
+}
+
+.chat-input-area input {
+	flex: 1;
+	min-width: 120px;
+	max-height: 40px;
+	padding: 10px;
+	border-radius: 12px;
+	border: 1px solid #ccc;
+	outline: none;
+	font-size: 14px;
+}
+
+.chat-input-area button {
+	padding: 5px 16px;
+	background: #007bff;
+	color: white;
+	border: none;
+	border-radius: 12px;
+	cursor: pointer;
+	font-weight: bold;
+}
+
+.chat-input-area button:hover {
+	background: #005fcc;
+}
+
+.chat-float-btn {
+	position: fixed;
+	bottom: 22px;
+	right: 22px;
+	width: 58px;
+	height: 58px;
+	background: #007bff;
+	color: white;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 26px;
+	cursor: pointer;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+	z-index: 9999;
+}
+
+.close-btn {
+	float: right;
+	cursor: pointer;
+	font-size: 18px;
+	margin-left: 10px;
+	transition: 0.2s;
+}
+
+.close-btn:hover {
+	opacity: 0.7;
 }

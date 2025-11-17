@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import SearchInput from "./SearchInput";
 import FilterRegional from "./FilterRegional";
+import ChatBox from "./ChatBox";
 import { Link, useNavigate } from "react-router-dom";
 import "./styles/country.css";
 import "./styles/pagination.css";
@@ -24,10 +25,10 @@ const Countries = () => {
   const nextPageHandler = () => {
     if (currentPage !== numOfTotalPages) setCurrentPage(currentPage + 1);
   };
-   
+
   const getCountries = async () => {
     try {
-      
+
       const res = await fetch('https://restcountries.com/v3.1/all?fields=name,capital,population,flags,region,currencies');
       if (!res.ok) throw new Error("Something went wrong!")
       const data = await res.json()
@@ -57,34 +58,34 @@ const Countries = () => {
       setError(false);
     }
   };
-  
+
   useEffect(() => {
     getCountries();
   }, []);
 
 
   return (
-    
-    <div className="country_wrap">
-      
-       <div className="country__info">
-         <div className="search">
-            <SearchInput onSearch={handleSearch} />
-         </div>
 
-        <select onChange = {(e) => setCountriesPerPage(e.target.value)}>
-        <option className="option">Select Countries per page</option>
-         <option value="10">10</option>
-         <option value="20">20</option>
-         <option value="30">30</option>
-         <option value="40">40</option>
-         <option value="50">50</option>
+    <div className="country_wrap">
+
+      <div className="country__info">
+        <div className="search">
+          <SearchInput onSearch={handleSearch} />
+        </div>
+
+        <select onChange={(e) => setCountriesPerPage(e.target.value)}>
+          <option className="option">Select Countries per page</option>
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="30">30</option>
+          <option value="40">40</option>
+          <option value="50">50</option>
         </select>
 
-          <div className="filter">
+        <div className="filter">
           <FilterRegional onSelect={getCountryByRegion} />
         </div>
-       </div>
+      </div>
       <div className="country__list">
         {isLoading && !error && <h4>Loading........</h4>}
         {error && !isLoading && <h4>{error}</h4>}
@@ -103,28 +104,29 @@ const Countries = () => {
                   {new Intl.NumberFormat().format(country.population)}
                 </h6>
                 <h6>Region: {country.region}</h6>
-                <h6>Currency: {Object.values(country.currencies || []).map(({name}) => name).join(", ")}</h6>
+                <h6>Currency: {Object.values(country.currencies || []).map(({ name }) => name).join(", ")}</h6>
                 <h6>Capital: {country.capital}</h6>
               </div>
             </div>
           </Link>
         ))}
       </div>
-     
-       <div className ="country_pages">
-         <span onClick = {prevPageHandler}>Previous</span>
-          {pages.map((page) => (
-              <span
-                key={page} 
-                onClick={() => setCurrentPage(page)}
-                className = {`${currentPage === page ? "active": " "} `}>
-                {`${page}  | `}
-              </span>
-            ))}
-          <span onClick = {nextPageHandler}>Next</span> 
 
-         
-       </div>     
+      <div className="country_pages">
+        <span onClick={prevPageHandler}>Previous</span>
+        {pages.map((page) => (
+          <span
+            key={page}
+            onClick={() => setCurrentPage(page)}
+            className={`${currentPage === page ? "active" : " "} `}>
+            {`${page}  | `}
+          </span>
+        ))}
+        <span onClick={nextPageHandler}>Next</span>
+
+
+      </div>
+      <ChatBox />
     </div>
   );
 };
