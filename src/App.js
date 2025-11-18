@@ -8,7 +8,7 @@ function App() {
   return (
     <>
       <div className="header">
-          <h5>Find the Countries in this planet</h5>    
+          <h5>Click the Summary to Find Country's Info or Ask in the AI powered Bot </h5>    
       </div>
       <div className="container">
       <BrowserRouter>

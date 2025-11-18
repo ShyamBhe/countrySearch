@@ -1,0 +1,6 @@
+[dev]
+functions = "netlify/functions"
+edge_functions = []
+port = 8888
+targetPort = 3000
+
