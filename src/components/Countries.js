@@ -90,26 +90,31 @@ const Countries = () => {
         {isLoading && !error && <h4>Loading........</h4>}
         {error && !isLoading && <h4>{error}</h4>}
 
-        {visibleCountries?.map((country) => (
-          <Link to={`/country/${country.name.common}`}>
-            <div className="country__card">
-              <div className="country__img">
-                <img src={country.flags.png} alt="" />
-              </div>
-              <div className="country__data">
-                <h3>{country.name.common}</h3>
-                <h6>
-                  {" "}
-                  Population:{" "}
-                  {new Intl.NumberFormat().format(country.population)}
-                </h6>
-                <h6>Region: {country.region}</h6>
-                <h6>Currency: {Object.values(country.currencies || []).map(({ name }) => name).join(", ")}</h6>
-                <h6>Capital: {country.capital}</h6>
-              </div>
-            </div>
-          </Link>
-        ))}
+        {visibleCountries?.map((country) => {
+  const currencyNames = country.currencies
+    ? Object.values(country.currencies).map((c) => c.name).join(", ")
+    : "N/A";
+
+  return (
+    <Link 
+      key={country.cca3 || country.name.common} 
+      to={`/country/${country.name.common}`}
+    >
+      <div className="country__card">
+        <div className="country__img">
+          <img src={country.flags.png} alt="" />
+        </div>
+        <div className="country__data">
+          <h3>{country.name.common}</h3>
+          <h6>Population: {new Intl.NumberFormat().format(country.population)}</h6>
+          <h6>Region: {country.region}</h6>
+          <h6>Currency: {currencyNames}</h6>
+          <h6>Capital: {country.capital}</h6>
+        </div>
+      </div>
+    </Link>
+  );
+})}
       </div>
 
       <div className="country_pages">
