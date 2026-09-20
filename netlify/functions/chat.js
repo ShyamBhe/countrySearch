@@ -1,41 +1,96 @@
-console.log("OPENAI_API_KEY LOADED:", !!process.env.OPENAI_API_KEY);
-console.log("KEY VALUE:", process.env.OPENAI_API_KEY);
+require("dotenv").config();
 
-export async function handler(event, context) {
+exports.handler = async function (event) {
   try {
-    const { input } = JSON.parse(event.body);
+    if (event.httpMethod !== "POST") {
+      return {
+        statusCode: 405,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ error: "Method not allowed" }),
+      };
+    }ƒ
 
-    const prompt = `Give me a short description of ${input}.`;
+    const { input } = JSON.parse(event.body || "{}");
 
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-      },
-      body: JSON.stringify({
-        model: "gpt-4-turbo",
-        messages: [{ role: "user", content: prompt }],
-        max_tokens: 500,
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error(`OpenAI API responded with status ${response.status}`);
+    if (!input || !input.trim()) {
+      return {
+        statusCode: 400,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ error: "Input is required" }),
+      };
     }
 
+    const rawKey = process.env.GEMINI_API_KEY || "";
+    const apiKey = rawKey.trim().replace(/^["']|["']$/g, "");
+
+    if (!apiKey) {
+      console.error("GEMINI_API_KEY is missing from environment");
+      return {
+        statusCode: 500,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ error: "Gemini API key is not configured" }),
+      };
+    }
+
+    const prompt = `You are a helpful Country Assistant.
+
+Answer the user's question clearly, accurately, and well-structured using proper Markdown syntax.
+
+When listing facts, place headers (###) on new lines and keep bullet points (*) clearly separated on individual lines.
+
+User question:
+${input.trim()}`;
+
+    const response = await fetch(
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-goog-api-key": apiKey,
+        },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+        }),
+      }
+    );
+
     const data = await response.json();
-    const reply = data?.choices?.[0]?.message?.content || "No response generated.";
+
+    if (!response.ok) {
+      console.error("Gemini API error:", response.status, data);
+      return {
+        statusCode: response.status,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          error: data?.error?.message || "Gemini API request failed",
+        }),
+      };
+    }
+
+    let rawReply =
+      data?.candidates?.[0]?.content?.parts?.[0]?.text ||
+      "Sorry, I couldn't generate a response.";
+
+    const reply = rawReply
+      .replace(/\s*(###+|\*\*)/g, "\n\n$1")
+      .replace(/\s*\*\s+/g, "\n* ")
+      .replace(/\n{3,}/g, "\n\n")
+      .trim();
 
     return {
       statusCode: 200,
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ reply }),
     };
-  } catch (err) {
-    console.error("Error:", err);
+  } catch (error) {
+    console.error("Chat function error:", error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: "Failed to fetch from OpenAI API" }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        error: error?.message || "Failed to process chatbot request",
+      }),
     };
   }
-}
+};

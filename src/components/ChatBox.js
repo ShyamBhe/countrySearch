@@ -77,7 +77,7 @@ const ChatBox = () => {
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Type the country related questions.."
+              placeholder="Type the country name/query.."
             />
             <button type="submit">Send</button>
           </form>
