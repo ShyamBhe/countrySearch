@@ -8,11 +8,31 @@ exports.handler = async function (event) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ error: "Method not allowed" }),
       };
-    }ƒ
+    }
 
-    const { input } = JSON.parse(event.body || "{}");
+    //Safely decode Base64 if sent by Netlify/Lambda CLI
+    let rawBody = event.body || "";
+    if (event.isBase64Encoded) {
+      rawBody = Buffer.from(rawBody, "base64").toString("utf-8");
+    }
 
-    if (!input || !input.trim()) {
+    // Safely parse JSON payload
+    let parsedBody = {};
+    if (rawBody) {
+      try {
+        parsedBody = typeof rawBody === "string" ? JSON.parse(rawBody) : rawBody;
+      } catch (e) {
+        return {
+          statusCode: 400,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ error: "Invalid JSON format in request body" }),
+        };
+      }
+    }
+
+    const input = parsedBody?.input;
+
+    if (!input || typeof input !== "string" || !input.trim()) {
       return {
         statusCode: 400,
         headers: { "Content-Type": "application/json" },
@@ -20,11 +40,12 @@ exports.handler = async function (event) {
       };
     }
 
+    // Clean environment variable reading
     const rawKey = process.env.GEMINI_API_KEY || "";
     const apiKey = rawKey.trim().replace(/^["']|["']$/g, "");
 
     if (!apiKey) {
-      console.error("GEMINI_API_KEY is missing from environment");
+      console.error("GEMINI_API_KEY is missing from process.env");
       return {
         statusCode: 500,
         headers: { "Content-Type": "application/json" },
@@ -41,6 +62,7 @@ When listing facts, place headers (###) on new lines and keep bullet points (*) 
 User question:
 ${input.trim()}`;
 
+    // 4. API fetch request
     const response = await fetch(
       "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent",
       {
@@ -84,12 +106,12 @@ ${input.trim()}`;
       body: JSON.stringify({ reply }),
     };
   } catch (error) {
-    console.error("Chat function error:", error);
+    console.error("Fatal lambda execution error:", error);
     return {
       statusCode: 500,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        error: error?.message || "Failed to process chatbot request",
+        error: error?.message || "Internal server error",
       }),
     };
   }
